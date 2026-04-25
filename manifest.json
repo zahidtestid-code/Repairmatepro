@@ -1,0 +1,21 @@
+{
+  "name": "RepairMate Pro",
+  "short_name": "RepairMate",
+  "description": "Repair Smarter, Grow Faster.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3A82F6",
+  "icons": [
+    {
+      "src": "https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

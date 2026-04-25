@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RepairMate Pro</title>
+    
+    <!-- গুগল সার্চ কনসোল ভেরিফিকেশন ট্যাগ (নিচের লাইনে আপনার কপি করা কোডটি বসান) -->
+    <meta name="google-site-verification" content="আপনার_কপি_করা_কোডটি_এখানে_দিন" />
+
+    <title>RepairMate Pro - Repair Smarter, Grow Faster</title>
+    
+    <!-- এসইও এর জন্য প্রয়োজনীয় মেটা ট্যাগ -->
+    <meta name="description" content="RepairMate Pro - The ultimate solution for repair shop masters. Access LCD model diagrams, repair tools, and pro tips to grow your business.">
+    <meta name="keywords" content="Mobile Repair, LCD Repair, RepairMate Pro, Repair Shop Management, Tool Shop, Phone Repair Diagrams">
+    <meta name="author" content="RepairMate Pro">
+    <link rel="canonical" href="https://www.repairmatepro.site/">
+
+    <!-- ওপেন গ্রাফ ট্যাগ (ফেসবুক বা সোশ্যাল মিডিয়ায় শেয়ার করলে সুন্দর দেখাবে) -->
+    <meta property="og:title" content="RepairMate Pro">
+    <meta property="og:description" content="Repair Smarter. Grow Faster. Get all repair solutions in one place.">
+    <meta property="og:image" content="https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg">
+    <meta property="og:url" content="https://www.repairmatepro.site/">
+    
+    <!-- বাকি সিএসএস এবং ফন্ট লিঙ্কগুলো নিচে থাকবে... -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    ...
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -495,7 +516,73 @@
     font-weight: 500; 
 }
 
+@media (min-width: 768px) {
+    .app-container {
+        max-width: 1000px; 
+        margin: 20px auto;
+        border-radius: 20px;
+        min-height: 95vh;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 25px;
+        padding: 20px;
+    }
+
+    .product-img {
+        height: 200px; 
+    }
+
+   
+    .bottom-nav {
+        max-width: 1000px;
+        border-radius: 0 0 20px 20px;
+        padding: 15px 0;
+    }
+
+    
+    .search-wrapper-new {
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+  
+    .premium-header {
+        justify-content: space-between;
+        padding: 20px 40px;
+    }
+
+    
+    .category-scroll {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+  
+    .fab-support {
+        right: 40px;
+        left: auto;
+    }
+    .support-menu {
+        right: 40px;
+        left: auto;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .app-container {
+        max-width: 1200px;
+    }
+}
+
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3A82F6">
+<link rel="apple-touch-icon" href="https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg">
 </head>
 <body>
 <div class="app-container">
@@ -1563,17 +1650,35 @@ window.permanentDeleteNote = function(noteId) {
 };
 
     document.getElementById('btn-google-login').addEventListener('click', () => {
-        signInWithPopup(auth, provider).catch(e => alert(e.message));
-    });
-    document.getElementById('btn-reset').addEventListener('click', () => {
-        const email = document.getElementById('forgot-email').value;
-        if(email) {
-            sendPasswordResetEmail(auth, email)
-                .then(() => alert('Reset link sent!'))
-                .catch(e => alert(e.message));
-        }
-    });
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            const userRef = ref(db, 'users/' + user.uid);
 
+          
+            get(userRef).then((snapshot) => {
+                if (!snapshot.exists()) {
+                
+                    set(userRef, {
+                        name: user.displayName,
+                        email: user.email,
+                        shop: "", 
+                        status: "free", 
+                        createdAt: Date.now(),
+                        photoURL: user.photoURL
+                    }).then(() => {
+                        alert("Google Login Successful! Welcome " + user.displayName);
+                    });
+                } else {
+                 
+                    alert("Welcome back, " + user.displayName);
+                }
+            });
+        })
+        .catch((error) => {
+            alert("Google Login Error: " + error.message);
+        });
+});
 function loadShopProducts() {
     const shopRef = ref(db, 'shopProducts');
     onValue(shopRef, (snapshot) => {
@@ -1767,6 +1872,15 @@ function checkSubscription(userData) {
             showScreen('login-screen');
         }
     });
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker Registered'))
+        .catch(err => console.log('Service Worker Not Registered', err));
+    });
+  }
 </script>
 </body>
 </html>
