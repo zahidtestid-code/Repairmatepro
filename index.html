@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepairMate Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        background-color: #f3f4f6;
+        color: #1a1a1a;
+        font-family: 'Fredoka', sans-serif;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    
+    .app-container {
+        width: 100%;
+        max-width: 450px; 
+        background-color: #ffffff;
+        min-height: 100vh;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        overflow-x: hidden;
+    }
+
+    
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .screen {
+        display: none;
+        padding: 15px;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .active { display: block; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+   
+    .header-section {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        .welcome-notice {
+            color: #6B7280;
+            font-size: 20px;
+            margin-top: 15px;
+            line-height: 1.4;
+            font-weight: 500;
+            padding: 0 10px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #4B5563;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background-color: #F9FAFB;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 14px;
+            color: #111827;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #3A82F6;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(58, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background-color: #3A82F6;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 14px;
+            background-color: #FFFFFF;
+            color: #374151;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 14px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #3A82F6;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .forgot-pass {
+            text-align: right;
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #6B7280;
+            cursor: pointer;
+        }
+
+        
+        #blank-screen {
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .logout-link {
+            margin-top: 20px;
+            color: #EF4444;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+         .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    z-index: 1000;
+}
+.nav-item { text-align: center; color: #9CA3AF; cursor: pointer; font-size: 12px; }
+.nav-item.active { color: #3A82F6; }
+.nav-item i { display: block; font-size: 20px; }
+
+
+    .brand-logo-main { height: 120px; width: auto;display: flex; align-items: center; gap: 8px; }
+
+    .user-info-side { display: flex; align-items: center; gap: 8px; }
+
+    .pro-tag-container { text-align: center; line-height: 1; }
+    .pro-tag-container i { color: #FFD700; font-size: 18px; }
+    .pro-tag-text { font-weight: 700; color: #c5a059; font-size: 14px; display: block; }
+
+    .display-user-name { font-size: 18px; font-weight: 700; color: #000; }
+   .logo-container {
+            width: 170px;
+            height: 170px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    
+    .search-wrapper-new {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input-new {
+        flex: 1;
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 15px 0 0 15px;
+        padding: 15px 18px;
+        font-size: 18px;
+        outline: none;
+        height: 55px;
+    }
+
+    .search-btn-new {
+        background: #FF8C00;
+        width: 65px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 15px 15px 0;
+        border: 1px solid #ccc;
+        border-left: none;
+    }
+
+    .search-btn-new i { color: white; font-size: 24px; }
+
+    
+    .cat-section-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .cat-icon-left { width: 45px; height: 45px; }
+
+    .category-scroll {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        flex: 1;
+    }
+    .category-scroll::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+        padding: 8px 20px;
+        background: #FF8C00;
+        color: #000;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        border: none;
+    }
+
+   
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding-bottom: 80px;
+}
+.product-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: relative;
+}
+.product-img { width: 100%; height: 170px; object-fit: cover; background: #f0f0f0; }
+.product-info { padding: 10px; text-align: center; }
+.lock-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255,255,255,0.7);
+    display: flex; justify-content: center; align-items: center;
+    backdrop-filter: blur(2px);
+}
+    
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 450px;
+        background: #fff;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0 25px;
+        border-top: 1px solid #eee;
+        z-index: 1000;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+    }
+
+    .nav-item { text-align: center; color: #94a3b8; font-size: 11px; flex: 1; cursor: pointer; }
+    .nav-item i { font-size: 20px; margin-bottom: 3px; display: block; }
+    .nav-item.active { color: #3b82f6; }
+
+    
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7); z-index: 9999; display: none; align-items: center; justify-content: center;
+    }
+    .payment-card {
+        background: #fff; width: 90%; max-width: 380px; border-radius: 20px; overflow: hidden;
+    }
+    .payment-header { display: flex; justify-content: space-around; padding: 15px; background: #fff; }
+    .method-tab img { width: 50px !important; height: 50px !important; object-fit: contain; border-radius: 10px; border: 1px solid #eee; }
+    .method-tab.active { transform: scale(1.1); border: 2px solid #FF8C00; border-radius: 12px; padding: 2px;}
+
+    .payment-banner { background: #FF8C00; color: white; padding: 15px; text-align: center; }
+    .payment-body { padding: 15px; }
+
+    .num-display-box {
+        background: #f9f9f9; border: 1px solid #eee; padding: 12px; border-radius: 10px;
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
+    }
+
+.premium-header {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.brand-logo-main {
+    height: 60px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.user-info-side {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+}
+
+.pro-tag-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+.pro-tag-container i {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.pro-tag-text {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap; 
+}
+
+
+.display-user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+
+.status-inactive { color: #EF4444 !important; } 
+.status-active { color: #10B981 !important; }   
+    .logo-container { width: 120px; height: 120px; margin: 20px auto; }
+    .btn-primary {
+        background: #3b82f6; color: white; padding: 14px; border-radius: 12px;
+        width: 100%; border: none; font-weight: 600; margin-top: 10px;
+    }
+
+   
+ .fab-support {
+    position: fixed;
+    bottom: 80px; 
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 999;
+}
+.support-menu {
+    position: fixed;
+    bottom: 140px;
+    left: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+}
+.support-menu a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.pro-tag-text {
+    font-weight: 700;
+    font-size: 14px;
+    display: block;
+    text-transform: uppercase;
+}
+.status-inactive { color: #EF4444 !important; } 
+.status-active { color: #10B981 !important; }   
+.icon-inactive { color: #EF4444 !important; }
+.icon-active { color: #10B981 !important; }
+
+.status-msg-box {
+    padding: 8px 15px;
+    border-radius: 12px;
+    background: rgba(107, 114, 128, 0.1); 
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.status-msg-pro {
+    background: rgba(16, 185, 129, 0.15) !important; 
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+#top-user-status-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6B7280; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.text-pro-active {
+    color: #10B981 !important; 
+}
+.profile-form label {
+    font-weight: 700; 
+    color: #1E293B;
+    margin-bottom: 8px;
+    display: block;
+}
+.profile-form input {
+    font-weight: 500; 
+}
+
+</style>
+</head>
+<body>
+<div class="app-container">
+    <div id="login-screen" class="screen active">
+        <div class="header-section">
+            <div class="logo-container">
+                <img src="https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg" alt="Logo" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <i class="fas fa-microchip" style="font-size: 60px; color: #3A82F6; display: none;"></i>
+            </div>
+            <h2 class="login-title">Login your account</h2>
+            <p class="welcome-notice">Hello Repair Master! Repair Smarter. Grow Faster.</p>
+        </div>
+        <div class="input-group">
+            <input type="email" id="login-email" placeholder="Enter your email">
+        </div>
+        <div class="input-group">
+            <input type="password" id="login-password" placeholder="Enter your password">
+        </div>
+        <span class="forgot-pass" onclick="showScreen('forgot-screen')">Forgot Password?</span>
+        <button class="btn-primary" id="btn-login">Login</button>
+        <div style="text-align: center; margin-top: 20px; color: #9CA3AF; font-size: 12px;">OR</div>
+        <button class="btn-google" id="btn-google-login">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+            Continue with Google
+        </button>
+        <div class="link-text" onclick="showScreen('reg-screen')">Don't have an account? Register →</div>
+    </div>
+
+<div id="reg-screen" class="screen">
+    <h2 style="margin-bottom: 10px; font-size: 24px;">Create Account</h2>
+    <p style="color: #6B7280; font-size: 14px; margin-bottom: 30px;">Please fill in the details below</p>
+    
+    <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="reg-name" placeholder="Enter your full name">
+    </div>
+    
+    <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="reg-email" placeholder="name@example.com">
+    </div>
+
+    <div class="input-group">
+        <label>Shop Name (Optional)</label>
+        <input type="text" id="reg-shop" placeholder="Your shop name">
+    </div>
+
+    <div class="input-group">
+        <label>Promo Code (Optional)</label>
+        <input type="text" id="reg-promo" placeholder="Enter promo code if any">
+    </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="Min 6 characters">
+    </div>
+
+    <button class="btn-primary" id="btn-signup">Sign Up</button>
+    <div class="link-text" onclick="showScreen('login-screen')">Already have an account? Login</div>
+</div>
+
+ 
+    <div id="forgot-screen" class="screen">
+        <h2 style="margin-bottom: 10px; font-size: 24px;">Reset Password</h2>
+        <p style="color: #6B7280; font-size: 14px; margin-bottom: 30px;">Enter your email to receive a password reset link</p>
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="forgot-email" placeholder="Enter registered email">
+        </div>
+        <button class="btn-primary" id="btn-reset">Send Reset Link</button>
+        <div class="link-text" onclick="showScreen('login-screen')">Back to Login</div>
+    </div>
+
+<div id="dash-screen" class="screen">
+   
+    <div class="premium-header">
+        <img src="https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg" class="brand-logo-main">
+        <div class="user-info-side">
+            <div class="pro-tag-container">
+                <i class="fas fa-crown"></i>
+                <span class="pro-tag-text">Plan</span>
+            </div>
+           
+            <div id="status-display-container" class="status-msg-box">
+                <span id="top-user-status-text">Checking status...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-wrapper-new">
+        <input type="text" id="search-input" class="search-input-new" placeholder="Type LCD Model here" oninput="filterProducts()">
+        <div class="search-btn-new">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+
+  
+    <div class="cat-section-container">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/1035/1035034.png" class="cat-icon-left">
+        <div class="category-scroll" id="category-list">
+         
+        </div>
+    </div>
+
+    <div id="product-container" class="product-grid">
+      
+    </div>
+</div>
+
+
+<div id="shop-screen" class="screen">
+    <div style="padding: 15px 0;">
+        <h2><i class="fas fa-shopping-bag"></i> Repair Shop</h2>
+        <div class="search-box" style="margin-bottom: 10px;">
+            <input type="text" id="shop-search-input" placeholder="Search tools or parts..." oninput="filterShopProducts()">
+        </div>
+        
+     
+        <div class="category-scroll" id="shop-category-list"></div>
+    </div>
+    <div id="shop-product-container" class="product-grid"></div>
+</div>
+<div id="details-screen" class="screen" style="padding-bottom: 80px;">
+    <button onclick="showScreen('dash-screen')" style="border:none; background:none; font-size:20px; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Back</button>
+    <div id="details-content">
+     
+    </div>
+</div>
+<div id="plan-screen" class="screen">
+    <h3>Subscription Plans</h3>
+    <div id="plans-list"></div>
+</div>
+
+<div id="notes-screen" class="screen">
+    <h2><i class="fas fa-edit"></i> My Notes</h2>
+    
+  
+    <div style="position: fixed; bottom: 150px; right: 20px; z-index: 100;">
+        <div onclick="showScreen('trash-screen'); loadTrashNotes();" style="background: #64748B; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 15px;">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+        <div onclick="showScreen('add-note-screen')" style="background: #3A82F6; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <i class="fas fa-plus"></i>
+        </div>
+    </div>
+
+    <div id="notes-list-container" style="padding-bottom: 100px;">
+    
+    </div>
+</div>
+
+<div id="add-note-screen" class="screen">
+    <button onclick="showScreen('notes-screen')" style="border:none; background:none; font-size:18px; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Back</button>
+    <h3>Create New Note</h3>
+    <div class="input-group" style="margin-top: 20px;">
+        <label>Title</label>
+        <input type="text" id="note-title" placeholder="Enter title...">
+    </div>
+    <div class="input-group">
+        <label>Description</label>
+        <textarea id="note-desc" style="width:100%; height: 200px; padding: 15px; border-radius: 14px; border: 1.5px solid #E5E7EB; font-family: inherit;" placeholder="Write details here..."></textarea>
+    </div>
+    <button class="btn-primary" onclick="saveNote()">Save Note</button>
+</div>
+
+
+<div id="trash-screen" class="screen">
+    <button onclick="showScreen('notes-screen')" style="border:none; background:none; font-size:18px; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Back to Notes</button>
+    <h3><i class="fas fa-trash-restore"></i> Trash Bin</h3>
+    <p style="font-size: 12px; color: #64748B; margin-bottom: 15px;">Deleted notes are stored here.</p>
+    <div id="trash-list-container">
+     
+    </div>
+</div>
+
+<div id="profile-screen" class="screen">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 80px; height: 80px; background: #3A82F6; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">
+            <i class="fas fa-user-edit"></i>
+        </div>
+        <h2 style="margin-top:10px;">My Profile</h2>
+    </div>
+
+  
+    <div class="profile-form" style="padding: 10px;">
+        <div class="input-group">
+            <label><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="prof-name-input" placeholder="Your Name">
+        </div>
+        
+        <div class="input-group">
+            <label><i class="fas fa-store"></i> Shop Name</label>
+            <input type="text" id="prof-shop-input" placeholder="Shop Name">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-phone"></i> Phone Number</label>
+            <input type="number" id="prof-phone-input" placeholder="017xxxxxxxx">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" id="prof-email-input" placeholder="Email" disabled style="background: #f0f0f0; cursor: not-allowed;">
+            <small style="color: gray; font-size: 11px;">Email cannot be changed.</small>
+        </div>
+
+        <button class="btn-primary" id="btn-save-profile" onclick="updateUserProfile()" style="margin-top: 10px; background: #10B981;">
+            <i class="fas fa-check-circle"></i> Save Changes
+        </button>
+    </div>
+
+    <div id="sub-status-card" style="background: #FFF7ED; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #FFEDD5; display:none;">
+        <h4 style="color: #9A3412;"><i class="fas fa-crown" style="color: gold;"></i> Premium Status</h4>
+        <p id="sub-expiry-days" style="font-size: 14px; color: #C2410C; margin-top: 5px;"></p>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button onclick="loadTransactionHistory()" style="flex:1; padding: 12px; background: #EEF2FF; color: #4F46E5; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-history"></i> History
+        </button>
+        <button onclick="logout()" style="flex:1; padding: 12px; background: #FEF2F2; color: #EF4444; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <div id="history-container" style="margin-top: 20px;"></div>
+</div>
+
+
+<div id="edit-note-screen" class="screen">
+    <button onclick="showScreen('notes-screen')" style="border:none; background:none; font-size:18px; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Back</button>
+    <h3>Edit Note</h3>
+    <input type="hidden" id="edit-note-id">
+    <div class="input-group" style="margin-top: 20px;">
+        <label>Title</label>
+        <input type="text" id="edit-note-title">
+    </div>
+    <div class="input-group">
+        <label>Description</label>
+        <textarea id="edit-note-desc" style="width:100%; height: 200px; padding: 15px; border-radius: 14px; border: 1.5px solid #E5E7EB; font-family: inherit;"></textarea>
+    </div>
+    <button class="btn-primary" onclick="updateNote()">Update Note</button>
+</div>
+
+<div id="view-note-screen" class="screen">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <button onclick="showScreen('notes-screen')" style="border:none; background:none; font-size:18px;"><i class="fas fa-arrow-left"></i> Back</button>
+        <button id="edit-note-btn-trigger" class="btn-primary" style="width: auto; padding: 8px 20px; background: #3A82F6;">Edit</button>
+    </div>
+    <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); min-height: 300px;">
+        <h2 id="display-note-title" style="color: #1E293B; margin-bottom: 15px; border-bottom: 2px solid #F1F5F9; padding-bottom: 10px;"></h2>
+        <p id="display-note-desc" style="color: #475569; line-height: 1.6; white-space: pre-wrap; font-size: 15px;"></p>
+    </div>
+</div>
+
+
+
+<div class="bottom-nav">
+    <div class="nav-item" onclick="showScreen('dash-screen')"><i class="fas fa-home"></i>Home</div>
+    <div class="nav-item" onclick="showScreen('plan-screen')"><i class="fas fa-gem"></i>Plans</div>
+  <div class="nav-item" onclick="showScreen('shop-screen')"><i class="fas fa-shopping-cart"></i>Shop</div>
+<div class="nav-item" onclick="showScreen('notes-screen'); loadNotes();"><i class="fas fa-sticky-note"></i>Notes</div>
+    <div class="nav-item" onclick="showProfile()"><i class="fas fa-user"></i>Profile</div>
+</div>
+</div>
+
+<div id="payment-modal" class="modal-overlay">
+    <div class="payment-card">
+        <!-- Tabs -->
+        <div class="payment-header">
+            <div class="method-tab active" onclick="switchMethod('bkash', this)">
+                <img src="https://www.image2url.com/r2/default/images/1776444482333-7685eb17-4482-4a46-b0e9-233dbbf8afb2.jpg" alt="bkash">
+            </div>
+            <div class="method-tab" onclick="switchMethod('nagad', this)">
+                <img src="https://www.image2url.com/r2/default/images/1776444618043-a5b450ee-68e9-4302-b10d-10ffcad7e9e5.jpg" alt="nagad">
+            </div>
+            <div class="method-tab" onclick="switchMethod('rocket', this)">
+                <img src="https://cdn.phototourl.com/free/2026-04-24-62f1fc39-c8e1-43b3-ab43-3528921c9ff1.jpg"alt="rocket">
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="payment-banner">
+            <h3 id="method-name-title">ট্রানজেকশন আইডি দিন</h3>
+            <p id="method-instruction">বিকাশ অ্যাপ বা *২৪৭# ডায়াল করে Send Money করুন।</p>
+        </div>
+
+        <!-- Body -->
+        <div class="payment-body">
+            <p style="font-size: 13px; color: #666; margin-bottom: 8px;">নিচের নাম্বার টি কপি করে send money করুন </p>
+            <div class="num-display-box">
+                <span id="admin-number-display">Loading...</span>
+                <button class="copy-btn" onclick="copyAdminNumber()"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+
+            <div class="instruction-box">
+                <p>নিচের বক্সে এ Transaction ID দিন এবং verify বাটনে ক্লিক করুন </p>
+                <input type="text" id="trx-id-field" class="trx-input" placeholder="ট্রানজেকশন আইডি দিন">
+            </div>
+
+          <button class="verify-btn" onclick="submitTrxRequest()">VERIFY</button>
+            <button onclick="closePaymentModal()" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">এড়িয়ে চলুন</button>
+        </div>
+    </div>
+</div>
+<div class="support-wrapper">
+    <div class="support-menu" id="sup-menu">
+       
+    </div>
+    <div class="fab-support" onclick="toggleSupport()">
+        <i class="fas fa-headset"></i>
+    </div>
+</div>
+<div class="support-wrapper">
+    <div class="support-menu" id="sup-menu">
+        
+    </div>
+    <div class="fab-support" onclick="toggleSupport()">
+        <i class="fas fa-headset"></i>
+    </div>
+</div>
+<script type="module">
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getDatabase, ref, set, onValue, get, push, child, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    
+    const firebaseConfig = {
+  apiKey: "AIzaSyBURew3EdvRt4OVzz4zdzBHmwzn1-MOiKs",
+  authDomain: "repairmate-pro-d772f.firebaseapp.com",
+  projectId: "repairmate-pro-d772f",
+  storageBucket: "repairmate-pro-d772f.firebasestorage.app",
+  messagingSenderId: "676018263712",
+  appId: "1:676018263712:web:ba71d0e4acd17c98c41bc5",
+  measurementId: "G-HL5E64RPRR"
+};
+
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const provider = new GoogleAuthProvider();
+
+   
+    let allProducts = [];
+    let userStatus = "free"; 
+    let allShopProducts = [];  
+
+
+    window.showScreen = function(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(screenId);
+        if(target) target.classList.add('active');
+
+        const navBar = document.querySelector('.bottom-nav');
+        const authScreens = ['login-screen', 'reg-screen', 'forgot-screen'];
+
+        if (authScreens.includes(screenId)) {
+            if(navBar) navBar.style.display = 'none';
+        } else {
+            if(navBar) navBar.style.display = 'flex';
+        }
+        window.scrollTo(0, 0);
+    };
+
+    
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("Logged in as:", user.email);
+            fetchUserData(user.uid);
+            loadCategories();
+            loadProducts();
+loadUserPlans();
+loadShopCategories();
+            showScreen('dash-screen'); 
+        } else {
+            showScreen('login-screen'); 
+        }
+    });
+
+   
+    let hasClaimedFree = false; 
+
+function fetchUserData(uid) {
+    const userRef = ref(db, 'users/' + uid);
+    onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            let currentStatus = data.status || "free";
+            const expiryDate = data.expiryDate || 0;
+
+            
+            if (currentStatus === "premium" && expiryDate > 0) {
+                if (Date.now() > expiryDate) {
+                  
+                    update(ref(db, 'users/' + uid), {
+                        status: "free",
+                        expiryDate: 0 
+                    });
+                    currentStatus = "free";
+                    alert("Your premium subscription has expired!");
+                }
+            }
+            
+
+            userStatus = currentStatus;
+            
+         
+            const statusBox = document.getElementById('status-display-container');
+            const statusText = document.getElementById('top-user-status-text');
+            const proTagText = document.querySelector('.pro-tag-text');
+            
+            if (userStatus === "premium") {
+                statusText.innerText = "You are now pro user";
+                statusBox.classList.add('status-msg-pro');
+                proTagText.innerText = "pro user";
+                proTagText.style.color = "#10B981";
+            } else {
+                statusText.innerText = "Use Premium for better experience";
+                statusBox.classList.remove('status-msg-pro');
+                proTagText.innerText = "inactive";
+                proTagText.style.color = "#EF4444";
+            }
+            renderProducts(allProducts);
+        }
+    });
+}
+    function loadCategories() {
+        const catRef = ref(db, 'categories');
+        onValue(catRef, (snapshot) => {
+            const categories = snapshot.val();
+            const container = document.getElementById('category-list');
+            if(!container) return;
+            container.innerHTML = '<div class="cat-btn active" onclick="filterByCategory(\'all\')">All</div>';
+            for (let id in categories) {
+                container.innerHTML += `<div class="cat-btn" onclick="filterByCategory('${categories[id].name}')">${categories[id].name}</div>`;
+            }
+        });
+    }
+
+window.showProfile = function() {
+    showScreen('profile-screen');
+    const user = auth.currentUser;
+    if (user) {
+      
+        document.getElementById('prof-email-input').value = user.email;
+
+        get(ref(db, 'users/' + user.uid)).then((snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('prof-name-input').value = data.name || "";
+                document.getElementById('prof-shop-input').value = data.shop || "";
+                document.getElementById('prof-phone-input').value = data.phone || "";
+                
+                if(typeof checkSubscription === "function") checkSubscription(data);
+            }
+        });
+    }
+};
+
+window.updateUserProfile = function() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const newName = document.getElementById('prof-name-input').value;
+    const newShop = document.getElementById('prof-shop-input').value;
+    const newPhone = document.getElementById('prof-phone-input').value;
+
+    if (!newName || !newPhone) {
+        alert("Name and Phone Number are required!");
+        return;
+    }
+
+    
+    const saveBtn = document.getElementById('btn-save-profile');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+    saveBtn.disabled = true;
+
+    
+    update(ref(db, 'users/' + user.uid), {
+        name: newName,
+        shop: newShop,
+        phone: newPhone
+    }).then(() => {
+        alert("Profile updated successfully!");
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+    }).catch((error) => {
+        alert("Error: " + error.message);
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+    });
+};
+   
+    function loadProducts() {
+        const prodRef = ref(db, 'products');
+        onValue(prodRef, (snapshot) => {
+            const data = snapshot.val();
+            allProducts = [];
+            for (let id in data) {
+                allProducts.push({ id, ...data[id] });
+            }
+            renderProducts(allProducts);
+        });
+    }
+
+  
+    window.renderProducts = function(productsToDisplay) {
+        const container = document.getElementById('product-container');
+        if(!container) return;
+        container.innerHTML = '';
+
+        const sorted = productsToDisplay.sort((a, b) => (b.isPinned === true ? 1 : -1));
+
+        sorted.forEach(p => {
+            const isLocked = userStatus === "free";
+            container.innerHTML += `
+                <div class="product-card" onclick="openProductDetails('${p.id}')">
+                    ${p.isPinned ? '<span class="pinned-label" style="position:absolute; background:red; color:white; padding:2px 5px; font-size:10px; border-radius:5px;">PINNED</span>' : ''}
+                    <img src="${p.image || 'logo.png'}" class="product-img">
+                    <div class="product-info">
+                        <p style="font-weight:600; margin-top:5px;">${p.name}</p>
+                        ${isLocked ? '<i class="fas fa-lock" style="color:#f44336; font-size:12px;"> Locked</i>' : '<i class="fas fa-unlock" style="color:#4caf50; font-size:12px;"> Unlocked</i>'}
+                    </div>
+                </div>`;
+        });
+    };
+
+   
+    window.filterProducts = function() {
+        const term = document.getElementById('search-input').value.toLowerCase();
+        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
+        renderProducts(filtered);
+    };
+
+  
+    window.filterByCategory = function(catName) {
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        if(catName === 'all') {
+            renderProducts(allProducts);
+        } else {
+            const filtered = allProducts.filter(p => p.category === catName);
+            renderProducts(filtered);
+        }
+    };
+
+window.loadUserPlans = function() {
+    const plansRef = ref(db, 'plans');
+    onValue(plansRef, (snap) => {
+        const list = document.getElementById('plans-list');
+        if(!list) return;
+        list.innerHTML = '';
+        
+        if (!snap.exists()) {
+            list.innerHTML = '<p style="text-align:center; padding:20px; color:gray;">No plans available right now.</p>';
+            return;
+        }
+
+        snap.forEach(child => {
+            const plan = child.val();
+            const planId = child.key;
+            const price = parseInt(plan.price);
+
+            
+            if (price === 0 && hasClaimedFree) {
+                return; 
+            }
+
+            list.innerHTML += `
+                <div style="background:white; border:1px solid #E5E7EB; padding:20px; margin-bottom:15px; border-radius:15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <h4 style="margin-bottom:5px; color:#1E293B; font-size:18px;">${plan.name}</h4>
+                    <p style="font-size:16px; color:#3A82F6; font-weight:bold; margin-bottom:5px;">
+                        ${price === 0 ? 'FREE' : price + ' BDT'}
+                    </p>
+                    <p style="font-size:13px; color:#6B7280; margin-bottom:15px;">Duration: ${plan.time}</p>
+                    <button class="btn-primary" style="background:${price === 0 ? '#10B981' : '#3A82F6'}; margin-top:0px;" 
+                        onclick="processPlan('${planId}', ${price}, '${plan.name}')">
+                        ${price === 0 ? 'Activate Free Trial' : 'Buy Now'}
+                    </button>
+                </div>`;
+        });
+    });
+};
+
+
+let currentSelectedPlan = null;
+let currentMethod = 'bkash';
+let adminNumbers = {};
+
+
+window.processPlan = function(planId, price, planName) {
+    currentSelectedPlan = { id: planId, price: price, name: planName };
+    
+    
+    const adminRef = ref(db, 'adminSettings');
+    get(adminRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            adminNumbers = snapshot.val();
+            document.getElementById('payment-modal').style.display = 'flex';
+            updatePaymentUI();
+        } else {
+            alert("Admin has not set payment numbers yet.");
+        }
+    });
+};
+
+
+window.switchMethod = function(method, element) {
+    currentMethod = method;
+    document.querySelectorAll('.method-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    updatePaymentUI();
+};
+
+function updatePaymentUI() {
+    const numDisplay = document.getElementById('admin-number-display');
+    const instruction = document.getElementById('method-instruction');
+    const title = document.getElementById('method-name-title');
+
+    numDisplay.innerText = adminNumbers[currentMethod] || "Not Set";
+    title.innerText = currentMethod.toUpperCase() + " পেমেন্ট";
+    instruction.innerText = `${currentMethod.toUpperCase()} অ্যাপ বা মেনু ব্যবহার করে Send Money করুন।`;
+}
+
+
+window.copyAdminNumber = function() {
+    const num = document.getElementById('admin-number-display').innerText;
+    navigator.clipboard.writeText(num);
+    alert("Number Copied: " + num);
+};
+
+
+window.submitTrxRequest = function() {
+    const trxId = document.getElementById('trx-id-field').value;
+    if (!trxId) return alert("অনুগ্রহ করে ট্রানজেকশন আইডি দিন!");
+
+    const user = auth.currentUser;
+    const requestRef = ref(db, 'paymentRequests/' + push(child(ref(db), 'paymentRequests')).key);
+    
+    set(requestRef, {
+        uid: user.uid,
+        email: user.email,
+        plan: currentSelectedPlan.name,
+        price: currentSelectedPlan.price,
+        transactionId: trxId,
+        method: currentMethod,
+        status: "pending",
+        timestamp: Date.now()
+    }).then(() => {
+        alert("আপনার পেমেন্ট রিকোয়েস্ট পাঠানো হয়েছে। এডমিন ভেরিফাই করলে আপনার প্রিমিয়াম এক্সেস চালু হবে।");
+        closePaymentModal();
+    }).catch(e => alert("Error: " + e.message));
+};
+
+window.closePaymentModal = function() {
+    document.getElementById('payment-modal').style.display = 'none';
+    document.getElementById('trx-id-field').value = '';
+};
+
+
+window.toggleSupport = () => {
+    const menu = document.getElementById('sup-menu');
+    if (menu.style.display === 'flex') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'flex';
+    }
+};
+
+
+function loadUserSupport() {
+    const supportRef = ref(db, 'supportLinks'); 
+    onValue(supportRef, (snap) => {
+        const menu = document.getElementById('sup-menu');
+        if(!menu) return;
+        menu.innerHTML = ''; 
+        
+        if(!snap.exists()) {
+            menu.innerHTML = '<p style="padding:15px; font-size:12px; color:gray;">No support links</p>';
+            return;
+        }
+
+        snap.forEach(child => {
+            const item = child.val();
+            let finalLink = item.link;
+            
+           
+            if(!finalLink.startsWith('http')) {
+                let cleanNumber = finalLink.replace(/\D/g, ''); 
+                if(cleanNumber.length === 11 && cleanNumber.startsWith('01')){
+                    cleanNumber = '88' + cleanNumber;
+                }
+                finalLink = "https://wa.me/" + cleanNumber;
+            }
+
+        
+            let icon = "fas fa-external-link-alt";
+            const name = item.name.toLowerCase();
+            if(name.includes('whatsapp')) icon = "fab fa-whatsapp";
+            if(name.includes('facebook')) icon = "fab fa-facebook";
+            if(name.includes('youtube')) icon = "fab fa-youtube";
+
+           
+            const a = document.createElement('a');
+            a.href = finalLink;
+            a.target = "_blank";
+            a.innerHTML = `<i class="${icon}"></i> ${item.name}`;
+            
+         
+            a.onclick = () => menu.style.display = 'none';
+            
+            menu.appendChild(a);
+        });
+    });
+}
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+       
+        loadUserSupport(); 
+    }
+});
+
+
+    document.getElementById('btn-signup').addEventListener('click', () => {
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const shop = document.getElementById('reg-shop').value;
+        const password = document.getElementById('reg-password').value;
+        
+        if(name && email && password) {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const uid = userCredential.user.uid;
+                    set(ref(db, 'users/' + uid), {
+                        name: name,
+                        email: email,
+                        shop: shop,
+                        status: "free",
+                        createdAt: Date.now()
+                    }).then(() => {
+                        alert('Registration Successful! Welcome ' + name);
+                    });
+                })
+                .catch(error => alert("Registration Error: " + error.message));
+        } else {
+            alert('Please fill Name, Email and Password');
+        }
+    });
+
+    
+    document.getElementById('btn-login').addEventListener('click', () => {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        if(email && password) {
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => alert('Login Successful!'))
+                .catch(e => alert("Login Error: " + e.message));
+        } else {
+            alert('Please enter email and password');
+        }
+    });
+
+  
+    window.showProfile = function() {
+        showScreen('profile-screen');
+    };
+
+    
+    window.logout = function() {
+        signOut(auth).then(() => {
+            alert('Logged out successfully');
+        });
+    };
+
+   
+    window.buyPlan = function(planName, price) {
+        get(ref(db, 'adminSettings')).then((snapshot) => {
+            const settings = snapshot.val() || {bkash: "N/A", nagad: "N/A"};
+            const txId = prompt(`Plan: ${planName}\nPrice: ${price} BDT\n\nBkash: ${settings.bkash}\nNagad: ${settings.nagad}\n\nEnter Transaction ID:`);
+            
+            if (txId) {
+                const requestRef = ref(db, 'paymentRequests/' + auth.currentUser.uid);
+                set(requestRef, {
+                    uid: auth.currentUser.uid,
+                    email: auth.currentUser.email,
+                    plan: planName,
+                    transactionId: txId,
+                    status: "pending",
+                    timestamp: Date.now()
+                }).then(() => alert("Request Submitted!"));
+            }
+        });
+    };
+
+  
+window.openProductDetails = function(id, type = 'info') {
+    if(userStatus === 'free' && type === 'info') {
+        alert("Locked! Buy Premium to view diagrams.");
+        showScreen('plan-screen');
+        return;
+    }
+
+    const path = type === 'info' ? 'products' : 'shopProducts';
+    get(ref(db, `${path}/${id}`)).then(snap => {
+        const p = snap.val();
+        if(!p) return;
+        
+        showScreen('details-screen');
+        const container = document.getElementById('details-content');
+        
+        container.innerHTML = `
+            <img src="${p.image}" style="width:100%; border-radius:15px; margin-bottom:20px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+            <h2 style="color:#1E293B;">${p.name}</h2>
+            <div style="display:flex; gap:10px; margin:15px 0;">
+                <span style="background:#E2E8F0; padding:5px 12px; border-radius:20px; font-size:12px;">${p.category}</span>
+                <span style="background:#DBEAFE; color:#2563EB; padding:5px 12px; border-radius:20px; font-size:12px;">${p.group}</span>
+            </div>
+            
+            <div style="background:#F8FAFC; padding:15px; border-radius:12px; margin-bottom:20px;">
+                <h4 style="margin-bottom:8px;"><i class="fas fa-info-circle"></i> Specifications:</h4>
+                <p style="font-size:14px; color:#475569;">${p.spec}</p>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <h4 style="margin-bottom:8px;">Description:</h4>
+                <p style="font-size:14px; color:#64748B; line-height:1.6;">${p.description}</p>
+            </div>
+
+            ${type === 'shop' ? `
+                <a href="https://wa.me/${p.whatsapp}?text=I want to buy: ${p.name}" target="_blank" 
+                   style="display:block; text-align:center; background:#25D366; color:white; padding:15px; border-radius:12px; text-decoration:none; font-weight:600;">
+                   <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                </a>
+            ` : ''}
+        `;
+    });
+};
+window.saveNote = function() {
+    const title = document.getElementById('note-title').value;
+    const desc = document.getElementById('note-desc').value;
+    const user = auth.currentUser;
+
+    if (!title || !desc) return alert("Please fill both title and description");
+
+    const noteRef = ref(db, 'userNotes/' + user.uid);
+    const newNoteRef = push(noteRef);
+    
+    set(newNoteRef, {
+        title: title,
+        description: desc,
+        status: 'active', 
+        timestamp: Date.now()
+    }).then(() => {
+        alert("Note Saved!");
+        document.getElementById('note-title').value = '';
+        document.getElementById('note-desc').value = '';
+        showScreen('notes-screen');
+        loadNotes();
+    });
+};
+
+
+window.loadNotes = function() {
+    const user = auth.currentUser;
+    const notesRef = ref(db, 'userNotes/' + user.uid);
+    
+    onValue(notesRef, (snapshot) => {
+        const container = document.getElementById('notes-list-container');
+        container.innerHTML = '';
+        const data = snapshot.val();
+
+        if (!data) {
+            container.innerHTML = '<p style="text-align:center; color:gray; margin-top:50px;">No notes found.</p>';
+            return;
+        }
+
+        Object.keys(data).forEach(key => {
+            const note = data[key];
+            if (note.status === 'active') {
+                container.innerHTML += `
+                    <div style="background:white; border:1px solid #E5E7EB; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
+                        <div onclick="alert('${note.description}')" style="cursor:pointer; flex:1;">
+                            <b style="font-size:16px; color:#1E293B;">${note.title}</b>
+                            <p style="font-size:12px; color:#64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 200px;">${note.description}</p>
+                        </div>
+                        <i class="fas fa-trash" style="color:#EF4444; cursor:pointer; padding:10px;" onclick="moveNoteToTrash('${key}')"></i>
+                    </div>
+                `;
+            }
+        });
+    });
+};
+
+
+window.moveNoteToTrash = function(noteId) {
+    if (confirm("Move this note to Trash Bin?")) {
+        const user = auth.currentUser;
+        const noteRef = ref(db, `userNotes/${user.uid}/${noteId}`);
+        update(noteRef, { status: 'trash' }).then(() => {
+            loadNotes();
+        });
+    }
+};
+
+
+window.loadTrashNotes = function() {
+    const user = auth.currentUser;
+    const notesRef = ref(db, 'userNotes/' + user.uid);
+    
+    onValue(notesRef, (snapshot) => {
+        const container = document.getElementById('trash-list-container');
+        container.innerHTML = '';
+        const data = snapshot.val();
+
+        if (!data) return;
+
+        Object.keys(data).forEach(key => {
+            const note = data[key];
+            if (note.status === 'trash') {
+                container.innerHTML += `
+                    <div style="background:#F1F5F9; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <b style="color:#475569;">${note.title}</b>
+                        </div>
+                        <div>
+                            <i class="fas fa-undo" style="color:#10B981; cursor:pointer; margin-right:15px;" onclick="restoreNote('${key}')" title="Restore"></i>
+                            <i class="fas fa-times-circle" style="color:#EF4444; cursor:pointer;" onclick="permanentDeleteNote('${key}')" title="Delete Permanently"></i>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    });
+};
+
+
+window.restoreNote = function(noteId) {
+    const user = auth.currentUser;
+    update(ref(db, `userNotes/${user.uid}/${noteId}`), { status: 'active' });
+};
+
+let currentEditingNoteId = null;
+
+
+window.viewNote = function(noteId) {
+    const user = auth.currentUser;
+    get(ref(db, `userNotes/${user.uid}/${noteId}`)).then((snapshot) => {
+        const note = snapshot.val();
+        if (note) {
+            document.getElementById('display-note-title').innerText = note.title;
+            document.getElementById('display-note-desc').innerText = note.description;
+            
+            
+            document.getElementById('edit-note-btn-trigger').onclick = () => {
+                prepareEditNote(noteId, note.title, note.description);
+            };
+            
+            showScreen('view-note-screen');
+        }
+    });
+};
+
+window.prepareEditNote = function(noteId, title, desc) {
+    currentEditingNoteId = noteId; 
+    document.getElementById('note-title').value = title;
+    document.getElementById('note-desc').value = desc;
+    
+    
+    const saveBtn = document.querySelector('#add-note-screen .btn-primary');
+    saveBtn.innerText = "Update Note";
+    
+    showScreen('add-note-screen');
+};
+
+
+window.saveNote = function() {
+    const title = document.getElementById('note-title').value;
+    const desc = document.getElementById('note-desc').value;
+    const user = auth.currentUser;
+
+    if (!title || !desc) return alert("Please fill both title and description");
+
+    if (currentEditingNoteId) {
+        
+        update(ref(db, `userNotes/${user.uid}/${currentEditingNoteId}`), {
+            title: title,
+            description: desc,
+            lastUpdated: Date.now()
+        }).then(() => {
+            alert("Note Updated!");
+            finalizeNoteOperation();
+        });
+    } else {
+        
+        const noteRef = ref(db, 'userNotes/' + user.uid);
+        const newNoteRef = push(noteRef);
+        set(newNoteRef, {
+            title: title,
+            description: desc,
+            status: 'active',
+            timestamp: Date.now()
+        }).then(() => {
+            alert("Note Saved!");
+            finalizeNoteOperation();
+        });
+    }
+};
+
+
+function finalizeNoteOperation() {
+    currentEditingNoteId = null;
+    document.getElementById('note-title').value = '';
+    document.getElementById('note-desc').value = '';
+    document.querySelector('#add-note-screen .btn-primary').innerText = "Save Note";
+    showScreen('notes-screen');
+    loadNotes();
+}
+
+
+window.loadNotes = function() {
+    const user = auth.currentUser;
+    const notesRef = ref(db, 'userNotes/' + user.uid);
+    
+    onValue(notesRef, (snapshot) => {
+        const container = document.getElementById('notes-list-container');
+        container.innerHTML = '';
+        const data = snapshot.val();
+
+        if (!data) {
+            container.innerHTML = '<p style="text-align:center; color:gray; margin-top:50px;">No notes found.</p>';
+            return;
+        }
+
+        Object.keys(data).forEach(key => {
+            const note = data[key];
+            if (note.status === 'active') {
+                container.innerHTML += `
+                    <div style="background:white; border:1px solid #E5E7EB; padding:15px; border-radius:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
+                        <div onclick="viewNote('${key}')" style="cursor:pointer; flex:1;">
+                            <b style="font-size:16px; color:#1E293B;">${note.title}</b>
+                            <p style="font-size:12px; color:#64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">${note.description}</p>
+                        </div>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <i class="fas fa-edit" style="color:#3A82F6; cursor:pointer;" onclick="prepareEditNote('${key}', '${note.title.replace(/'/g, "\\'")}', '${note.description.replace(/'/g, "\\'")}')"></i>
+                            <i class="fas fa-trash" style="color:#EF4444; cursor:pointer;" onclick="moveNoteToTrash('${key}')"></i>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    });
+};
+window.permanentDeleteNote = function(noteId) {
+    if (confirm("Delete permanently? This cannot be undone!")) {
+        const user = auth.currentUser;
+        const noteRef = ref(db, `userNotes/${user.uid}/${noteId}`);
+       
+        import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js').then(m => {
+            m.remove(noteRef);
+        });
+    }
+};
+
+    document.getElementById('btn-google-login').addEventListener('click', () => {
+        signInWithPopup(auth, provider).catch(e => alert(e.message));
+    });
+    document.getElementById('btn-reset').addEventListener('click', () => {
+        const email = document.getElementById('forgot-email').value;
+        if(email) {
+            sendPasswordResetEmail(auth, email)
+                .then(() => alert('Reset link sent!'))
+                .catch(e => alert(e.message));
+        }
+    });
+
+function loadShopProducts() {
+    const shopRef = ref(db, 'shopProducts');
+    onValue(shopRef, (snapshot) => {
+        const data = snapshot.val();
+        const container = document.getElementById('shop-product-container');
+        if(!container) return;
+        container.innerHTML = '';
+        
+        for (let id in data) {
+            const p = data[id];
+            container.innerHTML += `
+                <div class="product-card" onclick="openProductDetails('${id}', 'shop')">
+                    <img src="${p.image || 'logo.png'}" class="product-img">
+                    <div class="product-info">
+                        <p style="font-weight:600; margin-top:5px;">${p.name}</p>
+                        <p style="font-size:12px; color:#3A82F6;">${p.spec || ''}</p>
+                        <button class="btn-primary" style="padding:8px; font-size:12px; margin-top:5px;">View Details</button>
+                    </div>
+                </div>`;
+        }
+    });
+}
+
+window.loadShopProducts = function() {
+    const shopRef = ref(db, 'shopProducts');
+    onValue(shopRef, (snapshot) => {
+        const data = snapshot.val();
+        
+        
+        allShopProducts = []; 
+        
+        if (data) {
+            for (let id in data) {
+                allShopProducts.push({ id, ...data[id] });
+            }
+        }
+        
+       
+        if (typeof renderShopProducts === "function") {
+            renderShopProducts(allShopProducts);
+        }
+    });
+};
+
+function loadShopCategories() {
+    const shopCatRef = ref(db, 'shopCategories');
+    onValue(shopCatRef, (snapshot) => {
+        const container = document.getElementById('shop-category-list');
+        if(!container) return;
+        
+        container.innerHTML = '<div class="cat-btn active" onclick="filterShopByCategory(\'all\')">All</div>';
+        snapshot.forEach(child => {
+            const cat = child.val();
+            container.innerHTML += `<div class="cat-btn" onclick="filterShopByCategory('${cat.name}', this)">${cat.name}</div>`;
+        });
+    });
+}
+
+
+window.filterShopByCategory = function(catName, element) {
+   
+    document.querySelectorAll('#shop-category-list .cat-btn').forEach(btn => btn.classList.remove('active'));
+    if(element) element.classList.add('active');
+    else document.querySelector('#shop-category-list .cat-btn').classList.add('active');
+
+    if(catName === 'all') {
+        renderShopProducts(allShopProducts);
+    } else {
+        const filtered = allShopProducts.filter(p => p.category === catName);
+        renderShopProducts(filtered);
+    }
+};
+
+
+
+
+window.renderShopProducts = function(products) {
+    const container = document.getElementById('shop-product-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (!products || products.length === 0) {
+        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; padding: 20px; color: gray;">No products found.</p>';
+        return;
+    }
+
+    products.forEach(p => {
+        container.innerHTML += `
+            <div class="product-card" onclick="openProductDetails('${p.id}', 'shop')">
+                <img src="${p.image || 'logo.png'}" class="product-img">
+                <div class="product-info">
+                    <p style="font-weight:600; margin-top:5px; font-size:14px;">${p.name}</p>
+                    <p style="font-size:12px; color:#3A82F6; font-weight:bold;">${p.spec || 'Contact for price'}</p>
+                    <button class="btn-primary" style="padding:6px; font-size:11px; margin-top:8px; background:#1E293B;">View Details</button>
+                </div>
+            </div>`;
+    });
+};
+
+
+window.filterShopProducts = function() {
+    const searchTerm = document.getElementById('shop-search-input').value.toLowerCase();
+    
+  
+    const filtered = allShopProducts.filter(p => 
+        (p.name && p.name.toLowerCase().includes(searchTerm)) || 
+        (p.category && p.category.toLowerCase().includes(searchTerm)) ||
+        (p.group && p.group.toLowerCase().includes(searchTerm))
+    );
+    
+    renderShopProducts(filtered);
+};
+
+window.loadTransactionHistory = function() {
+    const historyRef = ref(db, 'paymentRequests/' + auth.currentUser.uid);
+    onValue(historyRef, (snapshot) => {
+        const historyContainer = document.getElementById('history-container');
+        historyContainer.innerHTML = '<h4 style="margin-bottom:10px;">Transaction History</h4>';
+        
+        const data = snapshot.val();
+        if(!data) {
+            historyContainer.innerHTML += '<p style="font-size:12px; color:gray;">No transactions found.</p>';
+            return;
+        }
+
+        
+        Object.keys(data).forEach(key => {
+            const req = data[key];
+            const statusColor = req.status === 'approved' ? '#10B981' : (req.status === 'pending' ? '#F59E0B' : '#EF4444');
+            
+            historyContainer.innerHTML += `
+                <div style="background: white; border: 1px solid #E5E7EB; padding: 12px; border-radius: 10px; margin-bottom: 8px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <b>${req.plan}</b>
+                        <span style="color: ${statusColor}; font-weight: bold; text-transform: uppercase;">${req.status}</span>
+                    </div>
+                    <div style="color: #6B7280; margin-top: 4px;">TRX: ${req.transactionId}</div>
+                    <div style="font-size: 11px; color: #9CA3AF;">${new Date(req.timestamp).toLocaleDateString()}</div>
+                </div>
+            `;
+        });
+    });
+};
+
+
+function checkSubscription(userData) {
+    const subCard = document.getElementById('sub-status-card');
+    const subText = document.getElementById('sub-expiry-days');
+    
+    if(userData.status === 'premium' && userData.expiryDate) {
+        const now = Date.now();
+        const diff = userData.expiryDate - now;
+        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+        
+        subCard.style.display = 'block';
+        if(daysLeft > 0) {
+            subText.innerText = `মেয়াদ আছে: ${daysLeft} দিন`;
+        } else {
+            subText.innerText = `মেয়াদ শেষ হয়ে গেছে`;
+           
+        }
+    } else {
+        subCard.style.display = 'none';
+    }
+}
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("Logged in as:", user.email);
+            
+            
+            if (typeof fetchUserData === "function") fetchUserData(user.uid);
+            
+            
+            if (typeof loadCategories === "function") loadCategories();
+            
+            
+            if (typeof loadProducts === "function") loadProducts();
+            
+            
+            if (typeof loadShopProducts === "function") loadShopProducts();
+            
+           
+            if (typeof loadUserSupport === "function") loadUserSupport();
+            
+          
+            showScreen('dash-screen'); 
+            
+        } else {
+           
+            showScreen('login-screen');
+        }
+    });
+</script>
+</body>
+</html>
