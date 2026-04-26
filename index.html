@@ -24,7 +24,7 @@
     
     <!-- বাকি সিএসএস এবং ফন্ট লিঙ্কগুলো নিচে থাকবে... -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-    ...
+   
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -585,6 +585,48 @@
 <link rel="apple-touch-icon" href="https://cdn.phototourl.com/free/2026-04-23-8ec2cb51-cc97-4e62-bf50-9feab9108bca.jpg">
 </head>
 <body>
+
+<!-- Top Bar with ONLY 3-Dot Menu Icon at the Corner -->
+<div class="top-header" style="display:flex; justify-content: flex-end; align-items:center; padding: 10px 15px; background: transparent; position: absolute; top:0; right:0; width:auto; z-index: 1001;">
+    <div onclick="toggleSideMenu()" style="cursor:pointer; font-size: 26px; color: #333; padding: 5px;">
+        <i class="fas fa-ellipsis-v"></i>
+    </div>
+</div>
+
+<!-- Side Drawer Menu -->
+<div id="side-drawer" style="position:fixed; top:0; right:-280px; width:280px; height:100%; background:white; z-index:2000; transition:0.3s; box-shadow:-5px 0 15px rgba(0,0,0,0.1); overflow-y:auto;">
+    <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items: center;">
+        <b style="color:#3A82F6">MENU</b>
+        <i class="fas fa-times" onclick="toggleSideMenu()" style="cursor:pointer; font-size: 20px;"></i>
+    </div>
+    <ul id="main-menu-list" style="list-style:none; padding:10px;">
+        <li id="menu-info" class="menu-item" onclick="handleMenuClick('dash-screen')"><i class="fas fa-microchip"></i> Info Products</li>
+        <li id="menu-shop" class="menu-item" onclick="handleMenuClick('shop-screen')"><i class="fas fa-shopping-cart"></i> Shop</li>
+        <li id="menu-plans" class="menu-item" onclick="handleMenuClick('plan-screen')"><i class="fas fa-gem"></i> Subscriptions</li>
+        <li id="menu-login" class="menu-item" onclick="showScreen('login-screen')"><i class="fas fa-sign-in-alt"></i> Login / Register</li>
+        <hr style="margin: 10px 0; border: 0.5px solid #eee;">
+        <p style="padding:10px; font-size:12px; color:gray; font-weight: 600;">ANNOUNCEMENTS</p>
+        <div id="admin-notes-list"></div>
+    </ul>
+</div>
+
+<!-- Overlay -->
+<div id="drawer-overlay" onclick="toggleSideMenu()" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1999; display:none;"></div>
+
+<style>
+    .menu-item { 
+        padding: 15px; 
+        border-bottom: 1px solid #f9f9f9; 
+        cursor: pointer; 
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+        font-weight: 500; 
+        color: #333;
+    }
+    .menu-item i { color: #3A82F6; width: 20px; text-align: center; }
+    .menu-item:active { background: #f0f7ff; }
+</style>
 <div class="app-container">
     <div id="login-screen" class="screen active">
         <div class="header-section">
@@ -1199,6 +1241,81 @@ window.switchMethod = function(method, element) {
     updatePaymentUI();
 };
 
+
+window.toggleSideMenu = function() {
+    const drawer = document.getElementById('side-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if(drawer.style.right === '0px') {
+        drawer.style.right = '-280px';
+        overlay.style.display = 'none';
+    } else {
+        drawer.style.right = '0px';
+        overlay.style.display = 'block';
+    }
+};
+
+window.handleMenuClick = function(screenId) {
+    toggleSideMenu();
+    showScreen(screenId);
+};
+
+
+function loadMenuAndNotes() {
+    // মেনু সেটিংস
+    onValue(ref(db, 'menuSettings'), (snap) => {
+        const settings = snap.val() || { shop: true, info: true, plans: true };
+        document.getElementById('menu-info').style.display = settings.info ? 'flex' : 'none';
+        document.getElementById('menu-shop').style.display = settings.shop ? 'flex' : 'none';
+        document.getElementById('menu-plans').style.display = settings.plans ? 'flex' : 'none';
+    });
+
+    
+    onValue(ref(db, 'adminPublicNotes'), (snap) => {
+        const container = document.getElementById('admin-notes-list');
+        container.innerHTML = '';
+        snap.forEach(child => {
+            const note = child.val();
+            container.innerHTML += `
+                <div class="menu-item" style="font-size:14px; color:#475569;" onclick="showAdminNoteDetail('${note.title}', '${note.desc}')">
+                    <i class="fas fa-bell" style="color:#F59E0B"></i> ${note.title}
+                </div>`;
+        });
+    });
+}
+
+
+window.showAdminNoteDetail = function(title, desc) {
+    toggleSideMenu();
+    showScreen('details-screen');
+    document.getElementById('details-content').innerHTML = `
+        <h2 style="color:#1E293B; margin-bottom:15px;">${title}</h2>
+        <div style="background:#f8fafc; padding:20px; border-radius:12px; line-height:1.6; white-space:pre-wrap;">${desc}</div>
+    `;
+};
+
+
+const originalOpenProductDetails = window.openProductDetails;
+window.openProductDetails = function(id, type) {
+    if(!auth.currentUser) {
+        alert("Please login to see details or buy.");
+        showScreen('login-screen');
+        return;
+    }
+ 
+    originalOpenProductDetails(id, type);
+};
+
+onAuthStateChanged(auth, (user) => {
+    loadMenuAndNotes();
+    if (user) {
+        document.getElementById('menu-login').style.display = 'none';
+        fetchUserData(user.uid);
+    } else {
+        document.getElementById('menu-login').style.display = 'flex';
+     
+        userStatus = "free"; 
+    }
+});
 function updatePaymentUI() {
     const numDisplay = document.getElementById('admin-number-display');
     const instruction = document.getElementById('method-instruction');
